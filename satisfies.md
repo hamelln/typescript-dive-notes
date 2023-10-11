@@ -178,6 +178,8 @@ return user1;
 ```typescript 
 // ❓ 어느 날 User에 major 속성이 추가됐다면?
 interface User {
+  name: string;
+  location: string;
   major: "frontend" | "backend"; // 속성 추가.
 }
 
