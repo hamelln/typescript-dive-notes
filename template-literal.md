@@ -6,11 +6,13 @@
 하지만 완벽한 언어는 없습니다. 대부분의 정적 타입 언어들이 가지는 한계점은 ad-hoc types system입니다.  
 ad-hoc은 "임시적인, 즉흥적인"이라는 뜻입니다. 예를 들면 저희는 클래스, 객체를 만들 때마다 그에 맞는 타입을 만듭니다. 모든 상황에 완벽하게 호환되는 만능형 타입이 없으니까요.  
 
-당연한 듯 보입니다. 이게 왜 문제였을까요? 여러 문제 중 두 가지만 꼽아보자면 **고도의 추상화(high-level-abstraction)와 범위 모델링(domain modeling)이 쉽지 않습니다.**  
+당연한 듯 보입니다. 이게 왜 문제였을까요?  
+여러 문제 중 두 가지만 꼽아보자면 **고도의 추상화(high-level-abstraction)와 범위 모델링(domain modeling)이 쉽지 않습니다.**  
 예를 들어 **Generic, Union Types, Tuple Types가 없는 TypeScript**를 생각해보세요. 끔찍합니다.  
-이를 보완하는 여러 연구와 타입 개선이 이뤄졌습니다. Martin-Löf Type Theory, Generic, C++의 Dependent Types, Rust의 ADTs가 좋은 예시입니다.  
+이를 보완하는 연구와 개선이 많습니다. Martin-Löf Type Theory, Generic, C++의 Dependent Types, Rust의 ADTs가 좋은 예시입니다.  
 
-TypeScript에서 ADTs는 타입을 대수적으로 바라보는 휴리스틱입니다. 타입을 대수학처럼 더하고(+), 곱해서(x) 문제해결에 필요한 타입을 만들어내자는 아이디어입니다.  
+TypeScript에서 ADTs는 타입을 대수적으로 바라보는 휴리스틱입니다.  
+타입을 대수학처럼 더하고(+), 곱해서(x) 문제해결에 필요한 타입을 만들어내자는 아이디어입니다.  
 ADTs는 크게 Sum Types(+)와 Product Types(x) 두 가지로 나눕니다. 간단한 예시를 보죠.  
 
 ```typescript
@@ -22,7 +24,7 @@ type Person = { name: string, age: number }
 type Tuple = readonly [boolean, number, string]
 ```
 
-보다시피 ADTs는 거창하고 어려운 개념이 아닙니다!
+보다시피 ADTs는 거창하고 어려운 개념이 아닙니다!  
 **Sum Types는 여러 선택지가 있는 타입이고, Product Types는 하나 안에 여러 타입이 공존합니다.** 그게 전부입니다.(Rust처럼 시스템적으로 ADTs를 지원할 경우 더 강력한 기능 구현이 가능합니다.)  
 본론으로 돌아가보죠. Template Literal Types는 ADTs의 domain modeling을 강력하게 구현합니다. 
 
