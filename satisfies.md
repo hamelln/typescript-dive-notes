@@ -249,4 +249,6 @@ Gamer는 EventParticipants 타입을 만족하기 때문에 satisfies EventParti
 
 다른 사용 예시를 생각해봅시다. Jest의 테스트 환경은 Node.js나 Jsdom입니다. BOM을 완벽하게 지원하지 않기 때문에 관련 객체를 mocking해야 하는데요. 이 때 타입 업캐스팅을 사용해서 "필요한 속성만 mocking"하는 수도 있습니다.  
 
+## 마무리
+
 satisfies는 본래 수 년 전에 '타입 호환성이 적절한지 판단'하고 싶어서 제안이 되었지만 제안서 stage가 진행되면서 추가적인 변화를 거쳤습니다. 매우 멋진 기능이니 연습하면서 익숙해집시다!
