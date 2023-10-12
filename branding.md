@@ -2,7 +2,7 @@
 
 > Branding 기법을 통해 TypeScript가 구조적 타입 시스템을 어떻게 보완하는지 이해합니다.
 
-저희는 [구조적 타입 시스템 문서](https://github.com/hamelln/typescript-dive-notes/blob/main/structural-type.md)에서 TypeScript가 구조적 타입 시스템을 사용한다고 배웠습니다. JS와 호환성을 이루기도 하고 객체지향 프로그래밍 관점에서 보자면 "다형성"을 허용함으로서 유연해지기 때문입니다. 명목적(이름 기반) 타입 시스템의 엄격한 타입 체크는 어떤 때에 유용할까요? 먼저 간단한 예제를 봅시다.
+저희는 [구조적 타입 시스템 문서](https://github.com/hamelln/typescript-dive-notes/blob/main/structural-type-system.md)에서 TypeScript가 구조적 타입 시스템을 사용한다고 배웠습니다. JS와 호환성을 이루기도 하고 객체지향 프로그래밍 관점에서 보자면 "다형성"을 허용함으로서 유연해지기 때문입니다. 명목적(이름 기반) 타입 시스템의 엄격한 타입 체크는 어떤 때에 유용할까요? 먼저 간단한 예제를 봅시다.
 
 ```typescript
 // Nominal Type System
