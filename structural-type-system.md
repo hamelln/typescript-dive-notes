@@ -105,8 +105,6 @@ const calorie2 = calculateCalorie({
 });
 ```
 
-![type-compatibility-literal](https://github.com/hamelln/typescript-textbook/assets/39308313/82be080e-a9f7-46b9-ba53-59908a822740)
-
 이와 같이 내장된 로직으로 구조적 타이핑의 단점을 보완하기도 하지만, 개발자의 테크닉으로 보완할 때도 있습니다. 대표적인 예가 브랜딩입니다.  
 브랜딩은 TypeScript가 따로 신기술이라고 발표한 것은 아니지만, 공식적으로 인정하는 테크닉입니다. 한시적으로 **명목적 타입 시스템을 구현**하는 테크닉입니다.  
 자세한 내용은 [브랜딩 문서](https://github.com/hamelln/typescript-dive-notes/blob/main/branding.md)를 참고해주세요!
