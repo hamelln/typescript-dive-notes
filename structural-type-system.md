@@ -10,7 +10,7 @@
 저희가 사용하는 정적 타입 언어 대부분은 둘 중에 하나를 채택한 언어입니다. 코드로 확인해봅시다.
 
 ```typescript
-// 명목적 타이핑(타입 이름 기반 타이핑)
+// 명목적 타이핑(타입 이름 기반 타이핑): Java, Swift...
 type Game = { name: string }
 type Animal = { name: string }
 let zelda: Game = { name: "zelda" }
@@ -19,7 +19,7 @@ zelda = duck; // ❌ Error: zelda는 Game 타입입니다! Animal 타입을 할�
 ```
 
 ```typescript
-// 구조적 타이핑(속성 기반 타이핑)
+// 구조적 타이핑(속성 기반 타이핑): TypeScript...
 type Game = { name: string }
 type Animal = { name: string }
 let zelda: Game = { name: "zelda" }
