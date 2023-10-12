@@ -39,7 +39,8 @@ Q) **“오리란 무엇인가?”**
 
 ![rp0g39w789nqe8uzge8p](https://github.com/hamelln/typescript-textbook/assets/39308313/1b280fe5-0bc6-4c4c-bd15-2b34dd8baeaa)
 
-그러면 구조적 타이핑은 허술할 뿐인 언어일까요? 그렇진 않습니다! 아래와 같은 상황을 봅시다.
+구조적 타이핑은 꼼꼼하지 못하다는 인상이 강해졌습니다!  
+그러면 타입스크립트의 구조적 타이핑은 허술하다는 결론을 내려야 할까요? 아래의 상황을 보고 다시 생각해봅시다.
 
 ```typescript
 type Food = { carbohydrates: number; protein: number; fat: number };
@@ -60,8 +61,7 @@ const thighBurger: Burger = {
 calculateCalorie(thighBurger); // 버거 타입의 칼로리 계산을 막는 게 좋을까요?
 ```
 
-`Swift` 같은 명목적 타입 언어는 이런 케이스에 `Foodable protocol`을 `extension`으로 확장해서 사용합니다.  
-하지만 직관적으로 생각해봅시다. 햄버거는 `Food` 타입은 아니지만 탄수화물, 단백질, 지방 속성이 있습니다. 별도의 처리 없이도 칼로리 계산이 가능하다면 좋지 않을까요?  
+`Swift` 같은 명목적 타입 언어는 이런 케이스에 `Foodable protocol`을 `extension`으로 확장해서 사용합니다. 당연한 처리지만 불편하게 느껴지기도 합니다. 직관적으로 생각해봅시다. 햄버거는 `Food` 타입은 아니지만 탄수화물, 단백질, 지방 정보가 있으니까 바로 칼로리 계산을 허용한다면 편하지 않을까요?  
 
 다행히도 `TypeScript`는 구조적 타입 시스템을 지원하기 때문에 위 코드를 정상 실행합니다!  
 탄수화물, 단백질, 지방 속성을 갖췄으니 버거 브랜드라는 잉여 속성에 대해서는 신경을 안 씁니다. 이러한 유연성은 객체 지향 프로그래밍에서의 다형성을 허용합니다!  
