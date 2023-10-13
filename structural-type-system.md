@@ -4,10 +4,17 @@
 
 정적 타입 언어의 타입 시스템은 크게 두 가지 방식이 있다는 점을 알고 계신가요? 
 
-1. Nominal Type System(혹은 Name-Based Type System)
-2. Structural Type System(혹은 Duck Typing. 혹은 Property-Bame-Based Type System)
+1. 명목적 타입. Nominal Type System(혹은 Name-Based Type System)
+2. 구조적 타입. Structural Type System(혹은 Duck Typing. 혹은 Property-Bame-Based Type System)
 
-저희가 사용하는 정적 타입 언어 대부분은 둘 중에 하나를 채택한 언어입니다. 코드로 확인해봅시다.
+둘은 어떤 차이가 있을까요? 간단하게 표현할 수 있습니다!  
+
+![SmartSelect_20231013-233257_Samsung Notes](https://github.com/hamelln/typescript-dive-notes/assets/39308313/6061de9f-003b-4164-ac8f-f05d98bf560b)
+
+- 구조적 타입은 '속성, 구조'를 비교합니다. **둘 다 `number`속성을 가지므로 둘은 똑같다**고 판단합니다.
+- 명목적 타입은 '이름, 단위'를 비교합니다. **`L`와 `m`는 단위가 다르므로 둘은 다르다**고 판단합니다.
+
+어떠신가요? 위 그림을 통해 얻을 수 있는 결론은 '구조적 타입은 바보' 같이 보입니다. 코드로는 어떨까요?
 
 ```typescript
 // 명목적 타이핑(타입 이름 기반 타이핑): Java, Swift...
@@ -27,8 +34,8 @@ let duck: Animal = { name: "gooose" }
 zelda = duck; // ✅ OK: "name" 속성을 만족하니까 할당 가능합니다!
 ```
 
-"게임"과 "동물"은 엄연히 다릅니다. 하지만 `name` 속성이 공통된다는 이유만으로 서로 호환됩니다!  
-이와 같은 작동은 얼핏 매우 허술해보입니다. 실제로도 엄격한 타입 체크가 아니기 때문에 허점이 발생합니다! 이런 특성 때문에 구조적 타이핑은 덕 타이핑이란 이름으로도 많이 불립니다.  
+"게임"과 "동물"은 엄연히 다릅니다. 하지만 `name` 속성이 공통된다는 이유만으로 서로 호환됩니다.  
+볼수록 허술해보입니다! 이런 특성 때문에 구조적 타이핑은 덕 타이핑이란 이름으로도 많이 불립니다.  
 
 Q) **“오리란 무엇인가?”**
 
@@ -39,8 +46,9 @@ Q) **“오리란 무엇인가?”**
 
 ![rp0g39w789nqe8uzge8p](https://github.com/hamelln/typescript-textbook/assets/39308313/1b280fe5-0bc6-4c4c-bd15-2b34dd8baeaa)
 
-구조적 타이핑은 꼼꼼하지 못하다는 인상이 강해졌습니다!  
-그러면 타입스크립트의 구조적 타이핑은 허술하다는 결론을 내려야 할까요? 아래의 상황을 보고 다시 생각해봅시다.
+### 왜 타입스크립트는 구조적 타입 시스템을 사용할까요? 
+
+구조적 타이핑은 허술하기만 할까요? 다음 상황을 생각해봅시다.
 
 ```typescript
 type Food = { carbohydrates: number; protein: number; fat: number };
