@@ -113,10 +113,10 @@ const calorie2 = calculateCalorie({
 });
 ```
 
-### 아까처럼 L와 m, Game과 Animal처럼 타입 이름으로 비교하려면 어떻게 할까요? 
+### 아까 봤던 L과 m을 비교하려면 어떻게 할까요? 
 
-구조적 타입 시스템만으로는 방법이 안 보입니다! 이럴 때 TypeScript 개발자들은 Branding 기법을 사용합니다.  
-Branding은 TypeScript에서 **명목적 타입 시스템을 구현**하는 묘기인데요. 자세한 내용은 [브랜딩 문서](https://github.com/hamelln/typescript-dive-notes/blob/main/branding.md)를 참고해주세요!
+`1000L`와 `1000m`는 둘 다 `number` 타입이기 때문에 **속성 비교만 하는 구조적 타이핑으론 답이 없습니다!**  
+이럴 때 개발자들은 Branding을 사용합니다. Branding은 **명목적 타입 시스템을 구현**하는 묘기인데요. 자세한 내용은 [브랜딩 문서](https://github.com/hamelln/typescript-dive-notes/blob/main/branding.md)를 참고해주세요!
 
 ## 마무리
 
