@@ -5,7 +5,7 @@
 정적 타입 언어의 타입 시스템은 크게 두 가지 방식이 있다는 점을 아시나요? 
 
 1. 명목적 타이핑. Nominal Type System(혹은 Name-Based Type System)
-2. 구조적 타이핑. Structural Type System(혹은 Duck Typing. 혹은 Property-Bame-Based Type System)
+2. 구조적 타이핑. Structural Type System(혹은 Duck Typing. 혹은 Property-Name-Based Type System)
 
 둘은 어떤 차이가 있을까요? 간단하게 표현할 수 있습니다!  
 
