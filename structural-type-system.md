@@ -1,4 +1,4 @@
-# 목표
+# Goal
 
 > Understand the nature of TypeScript's Structural Type System and practice type compatibility and type checking.
 
@@ -119,6 +119,6 @@ const calorie2 = calculateCalorie({
 `1000L` and `1000m` are both `number` types. With the original structured type system, there's no way to compare the two, but don't worry. With branding, we can solve this.  
 Branding is a trick that **implements a nominal type system** - see the [branding](https://github.com/hamelln/typescript-dive-notes/blob/main/branding.md) for more details!
 
-## Conclusion.
+## Conclusion
 
 > TypeScript's structured type system supports flexible code, but it requires developer attention. Use it a lot and get used to it!
