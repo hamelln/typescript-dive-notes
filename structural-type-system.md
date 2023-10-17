@@ -14,7 +14,7 @@ What's the difference between the two?
 - Nominal typing compares 'name, unit'. We determine that **`L` and `m` are different** because they have different units.
 - Structural typing compares 'property, structure'. **They both have the property `number`, so they are the same.**
 
-What do you think? Structured types already look "silly". What about object types?
+Structured types look silly. What about object types?
 
 ```typescript
 // Nominal Type System: Java, Swift...
