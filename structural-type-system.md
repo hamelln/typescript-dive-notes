@@ -36,7 +36,7 @@ zelda = duck; // ✅ OK: It satisfies the "name" props, so it can be assigned!
 
 A "game" and an "animal" are very different. However, they are interchangeable simply because they both have the `name` propertie. Because of this, structured typing is often referred to as "duck typing".
 
-Q) \*\*"What is a duck?"
+Q) "What is a duck?"
 
 1. has a beak like a duck
 2. has duck-like eyes.
