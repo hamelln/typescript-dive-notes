@@ -72,7 +72,7 @@ calculateCalorie(thighBurger); // What about Typescript? Should we stop function
 Let's think about it intuitively. Even though a hamburger isn't a `Food` type, it has carbohydrate, protein, and fat information, so wouldn't it be cool if we could **calculate calories right away**?  
 Fortunately, `TypeScript` allows for calorie calculating without any extra processing! This is because the hamburger has all of the Food's `properties` of carbohydrates, proteins, and fats - it even generously allows for an **extra property** of burger brand. What seemed like a rigid system works as flexibility. This characteristic goes hand in hand with polymorphism.
 
-I'm sure you've guessed the pros and cons of nominal vs. structured type systems, so let's summarize.
+Let's summarize.
 
 - Nominal typing: precise type checking to prevent errors. Lack of flexibility, compatibility
 - Structured typing: loose type checking, but that makes it flexible.
