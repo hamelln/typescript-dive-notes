@@ -1,8 +1,6 @@
 # typescript-notes
 
-This repository is dedicated to deep dives into TypeScript.
-
-If you'd like to read this article in Korean, please see the korean article.
+타입스크립트를 학습하는 레포지토리입니다.
 
 - [Structural-Type-System](https://github.com/hamelln/typescript-dive-notes/blob/main/structural-type-system.md)
 - [branding](https://github.com/hamelln/typescript-dive-notes/blob/main/branding.md)

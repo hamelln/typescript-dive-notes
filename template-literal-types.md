@@ -1,40 +1,39 @@
-# 목표
+# Goal
 
-> TypeScript 4.1에 도입된 Template Literal Types을 알아보고 대수적 타입(Algebraic Data Types, 이후 ADTs)이 왜 정적 타입 언어에 필요한지 이해합니다.
+> Learn about Template Literal Types introduced in TypeScript 4.1 and understand why Algebraic Data Types (ADTs) are necessary for a statically typed language.
 
-정적 타입 언어는 런타임 전에 타입을 체크합니다. 그 덕분에 번거로운 실행 시간, 빌드 시간 없이 에러를 발견합니다.  
-하지만 완벽한 언어는 없습니다. 대부분의 정적 타입 언어들이 가지는 한계점은 ad-hoc types system입니다.  
-ad-hoc은 "임시적인, 즉흥적인"이라는 뜻입니다. 예를 들면 저희는 클래스, 객체를 만들 때마다 그에 맞는 타입을 만듭니다. 모든 상황에 완벽하게 호환되는 만능형 타입이 없으니까요. 
+Statically typed languages check types before runtime, catching errors without the hassle of runtime and buildtime.  
+There is no perfect language. The limitation of most statically typed languages is an ad-hoc types system. Ad-hoc means "temporary, for this". For example, whenever we create a class or object, we create a type for it. There is no one-size-fits-all type that works perfectly in every situation.
 
-### 당연한 듯 보입니다. 이게 왜 문제였을까요?
+### Why was this a problem??
 
-여러 문제 중 두 가지만 꼽아보자면 **고도의 추상화(high-level-abstraction)와 범위 모델링(domain modeling)이 쉽지 않습니다.**  
-예를 들어 **Generic, Union Types, Tuple Types가 없는 TypeScript**를 생각해보세요. 끔찍합니다.  
-이를 보완하는 연구와 개선이 많습니다. Martin-Löf Type Theory, Generic, C++의 Dependent Types, Rust의 ADTs가 좋은 예시입니다.  
+To name just two, **high-level-abstraction and domain modeling are not easy**.  
+For example, think of TypeScript without **Generics, Union Types, and Tuple Types** - it's terrible.  
+There's a lot of research and improvements to make up for this. Martin-Löf Type Theory, Generics, Dependent Types in C++, and ADTs in Rust are good examples.
 
-TypeScript에서 ADTs는 타입을 대수적으로 바라보는 휴리스틱입니다. 타입을 대수학처럼 더하고(+), 곱해서(x) 문제해결에 필요한 타입을 만들어내자는 아이디어입니다. ADTs는 크게 Sum Types(+)와 Product Types(x) 두 가지로 나눕니다. 간단한 예시를 보죠.  
+In TypeScript, ADTs are a heuristic for looking at types algebraically. The idea is to add (+) and multiply (x) types like algebra to create the types you need to solve a problem. There are two main types of ADTs: Sum Types (+) and Product Types (x). Let's look at a simple example.
 
 ```typescript
 // Sum Types
-type Direction = "up" | "down" | "right" | "left"
-type Params = string | number
+type Direction = "up" | "down" | "right" | "left";
+type Params = string | number;
 // Product Types
-type Person = { name: string, age: number }
-type Tuple = readonly [boolean, number, string]
+type Person = { name: string; age: number };
+type Tuple = readonly [boolean, number, string];
 ```
 
-보다시피 ADTs는 거창하고 어려운 개념이 아닙니다!  
-**Sum Types는 여러 선택지가 있는 타입이고, Product Types는 하나 안에 여러 타입이 공존합니다.** 그게 전부입니다.(Rust처럼 시스템적으로 ADTs를 지원할 경우 더 강력한 기능 구현이 가능합니다.)  
+As you can see, ADTs are not a complicated concept!  
+**Sum Types are types with multiple choices, and Product Types are multiple types coexisting inside of one** That's about it (and when you have systematic support for ADTs, like Rust, you can implement more powerful features).
 
 ### Template Literal Types?
 
-본론으로 돌아가보죠. Template Literal Types는 ADTs의 domain modeling을 강력하게 구현합니다. Template Literal Types가 도입되기 전의 코드를 봅시다.  
+Let's cut to the chase: Template Literal Types provide a powerful implementation of domain modeling for ADTs. Let's look at the code before Template Literal Types were introduced.
 
 ```typescript
-// case 1: 버튼 타입이 추가될 때마다...
+// case 1: Each time a button type is added...
 type Buttons = "a" | "b" | "x" | "y" | "home" | "zl" | "zr";
 
-// 💔 버튼에 대한 메소드 타입도 일일이 추가해야 한다.
+// 💔 You'll also need to add a method type for the button individually.
 type ButtonsController = {
   onA: () => void;
   onB: () => void;
@@ -46,41 +45,41 @@ type ButtonsController = {
 };
 
 class Controller implements ButtonsController {
-  // ... 메소드 구현
+  // ... method
 }
 
-// case 2: 포커용 카드 타입을 어떻게 만들지?
+// case 2: How would you create this card type for poker?
 type CardRank = 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | "J" | "Q" | "K" | "A";
 type CardSuit = "♥" | "♠" | "♣" | "◆";
-type Card = [CardSuit, CardRank] | "JOKER"; // 🙇‍♂️ 흠...뭔가 별로다.
+type Card = [CardSuit, CardRank] | "JOKER"; // 🙇‍♂️ Hmmm...not cool
 ```
 
-case 1은 타입이 추가되거나 타입 이름이 변경될 때마다 메소드 타입을 정의하는 코드도 매번 고쳐야 합니다. 이는 번거로울 뿐더러 개발자가 실수할 수도 있습니다.  
-case 2는 타입이 튜플이거나 "JOKER" 리터럴 타입입니다. 의도한 바가 아닌 이상 통일감이 떨어지고 보기 안 좋네요.  
+In case 1, the code defining the method type must also be fixed every time a type is added or the type name is changed. This is cumbersome and can lead to developer mistakes.  
+In case 2, the type is a tuple or the "JOKER" literal type. Unless that's what you're going for, it's inconsistent and ugly.
 
-이제 Template Literal Types로 위 코드를 개선해봅시다.  
+So let's improve the above code with Template Literal Types.
 
 ```typescript
-// case 1: 버튼에 대한 타입만 추가하거나 변경합니다.
-type Buttons = "a" | "b" | "x" | "y" | "home" | "zl" | "zr" 
-type CapitalizedButtons = Capitalize<Buttons> // 📘 Capitalize: TS 4.1에 추가된 타입. string 리터럴 타입의 첫 글자를 대문자로 바꿉니다.
-type ButtonHandlers = `on${CapitalizedButtons}` // "onA" | "onB" | "onX" | "onY" | "onHome" | "onZl" | "onZr"
+// case 1: Add or change the type for the button only.
+type Buttons = "a" | "b" | "x" | "y" | "home" | "zl" | "zr";
+type CapitalizedButtons = Capitalize<Buttons>;
+type ButtonHandlers = `on${CapitalizedButtons}`; // "onA" | "onB" | "onX" | "onY" | "onHome" | "onZl" | "onZr"
 
-// 🎉 메소드 타입은 버튼 타입에 맞춰서 자동으로 업데이트됩니다!
+// 🎉 The method type is automatically updated to match the button type!
 type ButtonsController = {
   [BH in ButtonHandlers]: () => void;
-}
+};
 
 class Controller implements ButtonsController {
-  // ... 메소드 구현
+  // ... method
 }
 
-// case 2: 포커 카드
+// case 2: Cards
 type CardRank = 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | "J" | "Q" | "K" | "A";
 type CardSuit = "♥" | "♠" | "♣" | "◆";
-type Card = `${CardSuit}-${CardRank}` | "JOKER"; // 53가지의 문자열 리터럴 타입 생성
+type Card = `${CardSuit}-${CardRank}` | "JOKER"; // Cool!
 ```
 
-## 마무리
-이처럼 대수적 타입을 통한 사고방식과 방법은 문제해결에 도움을 줍니다.  
-Template Literal Types로 더욱 강화된 TypeScript를 다양하게 즐겨보세요!
+## Conclusion
+
+ADTs help you think and solve problems. Enjoy more of TypeScript with Template Literal Types!
