@@ -11,8 +11,8 @@ What's the difference between the two?
 
 ![SmartSelect_20231013-233257_Samsung Notes](https://github.com/hamelln/typescript-dive-notes/assets/39308313/6061de9f-003b-4164-ac8f-f05d98bf560b)
 
-- Nominal typing compares 'name, unit'. \*\*We determine that `L` and `m` are different because they have different units.
-- Structural typing compares 'property, structure'. \*\*They both have the property `number`, so they are the same.
+- Nominal typing compares 'name, unit'. We determine that **`L` and `m` are different** because they have different units.
+- Structural typing compares 'property, structure'. **They both have the property `number`, so they are the same.**
 
 What do you think? Structured types already look "silly". What about object types?
 
