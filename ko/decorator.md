@@ -183,7 +183,7 @@ class EdiyaMachine extends VarietyMachine {
   }
 }
 
-// 서비스 layer에서의 코드
+// 서비스 layer
 const ediyaMachine = new EdiyaMachine();
 starbucksMachine.caffelatte();
 
