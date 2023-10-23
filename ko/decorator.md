@@ -64,8 +64,7 @@ class StarbucksMachine extends VarietyMachine {
 }
 ```
 
-우유를 사용하는 메뉴엔 heatMilk를 쓰고, 우유를 안 쓰는 메뉴엔 heatMilk를 안 씁니다. 이렇듯 필요한 때에 필요한 것만 가져와서 base를 꾸밉니다(decorate).  
-어떤가요? 수많은 케이스에 유연한 대응이 가능합니다.  
+우유를 사용하는 메뉴에만 heatMilk를 선택적으로 쓰고 에스프레소, 우유 양도 자유롭게 조정됩니다. 필요한 때에 필요한 것만 가져와 base를 꾸미고(decorate) 수많은 케이스에 유연한 대응을 합니다. 어떤가요?   
 
 ```typescript
 abstract class VarietyMachine {
