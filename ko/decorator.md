@@ -73,6 +73,7 @@ class StarbucksMachine extends VarietyMachine {
 우유를 사용하는 메뉴에만 `heatMilk`를 선택적으로 쓰고 에스프레소, 우유 양도 자유롭게 조정됩니다. 필요한 때에 필요한 것만 가져와 `base`를 꾸미고(decorate) 수많은 케이스에 유연한 대응을 합니다. 어떤가요?   
 
 ```typescript
+// 추상 클래스
 abstract class VarietyMachine {
   abstract coffeeBeans: number;
   abstract milkTemperature: number;
@@ -84,6 +85,7 @@ abstract class VarietyMachine {
   cappuccino(): void {}
 }
 
+// 원두를 분쇄하는 데코레이터 
 const grindCoffeeBeans = (beanGrams: number) => <Class extends VarietyMachine>(
     target: Function,
     context: ClassMethodDecoratorContext
@@ -95,6 +97,7 @@ const grindCoffeeBeans = (beanGrams: number) => <Class extends VarietyMachine>(
       console.log(`머신에 원두가 ${this.coffeeBeans}g 남아있습니다.`);
     };
 
+// 커피를 추출하는 데코레이터
 const extract = (water: number) => <Class extends VarietyMachine>(
     target: Function,
     context: ClassMethodDecoratorContext
@@ -106,6 +109,7 @@ const extract = (water: number) => <Class extends VarietyMachine>(
       console.log(`머신에 물이 ${this.water}ml 남아있습니다.`);
     };
 
+// 스팀 밀크 준비하는 데코레이터
 function heatMilk(milk: number) {
   return function <Class extends VarietyMachine>(
     target: Function,
@@ -121,6 +125,7 @@ function heatMilk(milk: number) {
   };
 }
 
+// 커피 머신 1
 class StarbucksMachine extends VarietyMachine {
   coffeeBeans = 1000;
   water = 1000;
@@ -148,6 +153,7 @@ class StarbucksMachine extends VarietyMachine {
   }
 }
 
+// 커피 머신 2
 class EdiyaMachine extends VarietyMachine {
   coffeeBeans = 1000;
   water = 1000;
@@ -177,9 +183,11 @@ class EdiyaMachine extends VarietyMachine {
   }
 }
 
+// 서비스 layer에서의 코드
 const ediyaMachine = new EdiyaMachine();
-const starbucksMachine = new StarbucksMachine();
 starbucksMachine.caffelatte();
+
+const starbucksMachine = new StarbucksMachine();
 ediyaMachine.caffelatte();
 ediyaMachine.cappuccino();
 ```
