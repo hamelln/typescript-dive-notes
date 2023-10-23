@@ -23,20 +23,26 @@ _Editor's note: 이 글은 객체 지향 프로그래밍을 아는 독자를 대
 
 ![SmartSelect_20231023-203237_Samsung Notes](https://github.com/hamelln/typescript-dive-notes/assets/39308313/709b4402-dd57-40a6-abfa-c26f0fd020c7)
 
-오늘날엔 고급 원두 머신이 보편화됐고 **메뉴가 많습니다.** 메소드를 대폭 바꿔야겠군요.
+이제 문제를 볼까요?  
+> _<p><strong>문제 1. 오늘날엔 메뉴가 많습니다.</strong></p>_  
+
+많은 가게가 고급 원두 머신을 사용합니다. 메소드를 대폭 업데이트해야겠군요.
 
 ![SmartSelect_20231023-203818_Samsung Notes](https://github.com/hamelln/typescript-dive-notes/assets/39308313/0254564b-d3eb-43e4-b64f-15156ccb7878)
 
-**브랜드와 머신 종류가 많습니다**. 인터페이스로 틀을 만들고 각 객체마다 구현을 맡깁시다.  
+> _<p><strong>문제 2. 브랜드와 머신 종류가 많습니다.</strong></p>_  
+
+인터페이스로 틀을 만들고 각 객체마다 구현을 맡깁시다.  
 
 ![SmartSelect_20231023-204140_Samsung Notes](https://github.com/hamelln/typescript-dive-notes/assets/39308313/f418b0f4-627b-48b1-b02f-77f44fbb60a1)
 
-**브랜드마다 레시피가 다릅니다.** 카페라떼만 해도 어디는 시나몬, 혹은 시럽을 넣을 수도 있습니다. 그러나 적어도 **원두를 분쇄하고 에스프레소를 만들고 데운 우유를 사용한다**는 로직은 모두 동일합니다.  
-이렇게 재사용성 가능성이 많아 보이는 로직은 데코레이터로 분리하는 방법이 있습니다.
+> _<p><strong>문제 3. 브랜드마다 레시피가 다릅니다.</strong></p>_
+
+카페라떼를 생각해봅시다. 어디는 시나몬, 혹은 시럽을 넣고 들어가는 원두의 종류, 양, 우유의 온도, 양이 각자 다릅니다. 그러나 <strong>원두를 분쇄하고 에스프레소를 만들고 데운 우유를 사용한다</strong>는 로직만큼은 동일합니다. 이렇게 재사용성이 엿보이는 로직은 데코레이터로 분리할 수 있습니다.
 
 ### 데코레이터
 
-> _객체 고유의 기본 메소드를 만들고, 그 외에는 필요에 따라서 추가 기능을 덧붙입니다._
+> _<strong>객체 고유의 기본 메소드를 만들고, 그 외에는 필요에 따라서 추가 기능을 덧붙입니다.</strong>_
 
 ![SmartSelect_20231023-205352_Samsung Notes](https://github.com/hamelln/typescript-dive-notes/assets/39308313/bec103af-956c-4e27-a57e-cde36bb44045)
 
@@ -64,7 +70,7 @@ class StarbucksMachine extends VarietyMachine {
 }
 ```
 
-우유를 사용하는 메뉴에만 heatMilk를 선택적으로 쓰고 에스프레소, 우유 양도 자유롭게 조정됩니다. 필요한 때에 필요한 것만 가져와 base를 꾸미고(decorate) 수많은 케이스에 유연한 대응을 합니다. 어떤가요?   
+우유를 사용하는 메뉴에만 `heatMilk`를 선택적으로 쓰고 에스프레소, 우유 양도 자유롭게 조정됩니다. 필요한 때에 필요한 것만 가져와 `base`를 꾸미고(decorate) 수많은 케이스에 유연한 대응을 합니다. 어떤가요?   
 
 ```typescript
 abstract class VarietyMachine {
