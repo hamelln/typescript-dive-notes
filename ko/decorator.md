@@ -167,4 +167,5 @@ function watchChange<This, Value>(
 
 ### 참조
 
-[안택수(2023.10). AOP in TypeScript. NAVER D2](https://d2.naver.com/helloworld/3010710)
+- [안택수(2023.10). AOP in TypeScript. NAVER D2](https://d2.naver.com/helloworld/3010710)
+- [Concise Developer(2023.08). TypeScript 5 decorators - full course](https://www.youtube.com/watch?v=1hq_tNPWASM)
