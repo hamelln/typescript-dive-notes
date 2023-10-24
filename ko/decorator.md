@@ -65,9 +65,51 @@ class StarbucksMachine extends VarietyMachine {
     console.log(`Starbucks 카푸치노가 나왔습니다.`);
   }
 }
+
+function grindCoffeeBeans(beanGrams: number) {
+  return <Class extends VarietyMachine>(
+    target: Function,
+    context: ClassMethodDecoratorContext
+  ) =>
+    function <Args extends any[]>(this: Class, ...args: Args) {
+      this.coffeeBeans -= beanGrams;
+      console.log(`원두를 ${beanGrams}g 분쇄합니다.`);
+      const originReturn = target.apply(this, args);
+      console.log(`머신에 원두가 ${this.coffeeBeans}g 남아있습니다.`);
+      return originReturn;
+    };
+}
+
+function extractEspresso(water: number) {
+  return <Class extends VarietyMachine>(
+    target: Function,
+    context: ClassMethodDecoratorContext
+  ) =>
+    function <Args extends any[]>(this: Class, ...args: Args) {
+      this.water -= water;
+      console.log(`물을 ${water}ml 사용해서 에스프레소를 추출합니다...`);
+      target.apply(this, args);
+      console.log(`머신에 물이 ${this.water}ml 남아있습니다.`);
+    };
+}
+
+function heatMilk(milk: number) {
+  return function <Class extends VarietyMachine>(
+    target: Function,
+    context: ClassMethodDecoratorContext
+  ) {
+    return function <Args extends any[]>(this: Class, ...args: Args) {
+      while (this.milkTemperature < this.desiredMilkTemperature) {
+        this.milkTemperature++;
+      }
+      console.log(`${milk}ml의 우유를 ${this.milkTemperature}도로 데웠습니다.`);
+      target.apply(this, args);
+    };
+  };
+}
 ```
 
-&nbsp;&nbsp;&nbsp;&nbsp;우유를 사용하는 메뉴에만 `heatMilk`를 선택적으로 쓰고 에스프레소, 우유 양도 자유롭게 조정됩니다. 필요한 때에 필요한 것만 가져와 `base`를 꾸미고(decorate) 수많은 케이스에 유연한 대응을 합니다. 어떤가요?  
+&nbsp;&nbsp;&nbsp;&nbsp;우유를 사용하는 메뉴에만 `heatMilk`를 선택적으로 쓰고 에스프레소, 우유 양도 자유롭게 조정됩니다. 필요한 때에 필요한 것만 가져와 `base`를 꾸미고(decorate) 어느 브랜드, 어느 머신에도 유연하게 대처할 준비가 됐습니다. 어떤가요? 
 
 &nbsp;&nbsp;&nbsp;&nbsp;타입스크립트에서는 Meta Programming(MP)을 위해 내놓았다고 서술하는데요. @로 metadata context를 이용하는 것은 Java에서도 흔히 볼 수 있습니다. 이는 AOP(Aspect-Oriented-Programming)와 연관이 깊습니다. 실제로 JS에선 [Proxy](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/Proxy), [Reflect](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/Reflect)객체를 도입함으로서 선언형 AOP를 대비하고 있습니다.
 
