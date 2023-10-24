@@ -2,7 +2,7 @@
 
 > _타입스크립트 5.0에 추가된 데코레이터에 알아보고 연습합니다._
 
-_Editor's note: 이 글은 객체 지향 프로그래밍을 아는 독자를 대상으로 작성했습니다. 이 글에서 '객체'는. 모듈, class, 컴포넌트, 혹은 함수일 수도 있습니다. 구체적인 개념보단 넓은 관점으로 봐주세요._
+_Editor's note: 이 글은 객체 지향 프로그래밍(OOP)을 아는 독자를 대상으로 작성했습니다. 이 글에서 '객체'는. 모듈, class, 컴포넌트, 혹은 함수일 수도 있습니다. 구체적인 개념보단 넓은 관점으로 봐주세요._
 
 ### 데코레이터 패턴
 
@@ -70,7 +70,9 @@ class StarbucksMachine extends VarietyMachine {
 }
 ```
 
-우유를 사용하는 메뉴에만 `heatMilk`를 선택적으로 쓰고 에스프레소, 우유 양도 자유롭게 조정됩니다. 필요한 때에 필요한 것만 가져와 `base`를 꾸미고(decorate) 수많은 케이스에 유연한 대응을 합니다. 어떤가요?   
+우유를 사용하는 메뉴에만 `heatMilk`를 선택적으로 쓰고 에스프레소, 우유 양도 자유롭게 조정됩니다. 필요한 때에 필요한 것만 가져와 `base`를 꾸미고(decorate) 수많은 케이스에 유연한 대응을 합니다. 어떤가요?  
+
+타입스크립트에서는 Meta Programming(MP)을 위해 내놓았다고 서술하는데요. @로 metadata context를 이용하는 것은 Java에서도 흔히 볼 수 있습니다. 이는 AOP(Aspect-Oriented-Programming)와 연관이 깊습니다. 실제로 JS에선 [Proxy](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/Proxy), [Reflect](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/Reflect)객체를 도입함으로서 선언형 AOP를 대비하고 있습니다.
 
 ```typescript
 // 추상 클래스
@@ -197,3 +199,7 @@ ediyaMachine.cappuccino();
 > _이 외에도 타입스크립트에서 추천한 포스팅에선 데코레이터를 메소드 전후처리, 직렬화 및 역직렬화의 자동 처리, 의존성 주입, 런타입 타입 평가 등 다용도로 사용한다고 서술합니다.  
 디자인 패턴은 **그때의 문제를 해결하기 위해 탄생한 개념이지, 모든 프로그램에 적용하기 좋은 정석이 아님**을 명심하세요. 데코레이터 역시 무조건적인 개선을 보장하지는 않습니다. 따라서 팀원들, 혹은 스스로에게 다시금 물어보세요.  
 "지금 문제를 개선하기 위해서는 데코레이터가 적절한가?"_
+
+### 참조
+
+[안택수(2023.10). AOP in TypeScript. NAVER D2](https://d2.naver.com/helloworld/3010710)
