@@ -74,124 +74,89 @@ class StarbucksMachine extends VarietyMachine {
 
 타입스크립트에서는 Meta Programming(MP)을 위해 내놓았다고 서술하는데요. @로 metadata context를 이용하는 것은 Java에서도 흔히 볼 수 있습니다. 이는 AOP(Aspect-Oriented-Programming)와 연관이 깊습니다. 실제로 JS에선 [Proxy](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/Proxy), [Reflect](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/Reflect)객체를 도입함으로서 선언형 AOP를 대비하고 있습니다.
 
+### 클래스 데코레이터 
+
+아래와 같이 클래스 자체를 decorate할 수도 있습니다.
+
 ```typescript
-// 추상 클래스
-abstract class VarietyMachine {
-  abstract coffeeBeans: number;
-  abstract milkTemperature: number;
-  abstract water: number;
-  desiredMilkTemperature: number = 70;
-  espresso(): void {}
-  americano(water: number): void {}
-  caffelatte(): void {}
-  cappuccino(): void {}
-}
-
-// 원두를 분쇄하는 데코레이터 
-const grindCoffeeBeans = (beanGrams: number) => <Class extends VarietyMachine>(
-    target: Function,
-    context: ClassMethodDecoratorContext
-  ) =>
-    function <Args extends any[]>(this: Class, ...args: Args) {
-      this.coffeeBeans -= beanGrams;
-      console.log(`원두를 ${beanGrams}g 분쇄합니다.`);
-      target.apply(this, args);
-      console.log(`머신에 원두가 ${this.coffeeBeans}g 남아있습니다.`);
-    };
-
-// 커피를 추출하는 데코레이터
-const extract = (water: number) => <Class extends VarietyMachine>(
-    target: Function,
-    context: ClassMethodDecoratorContext
-  ) =>
-    function <Args extends any[]>(this: Class, ...args: Args) {
-      this.water -= water;
-      console.log(`물을 ${water}ml 사용해서 에스프레소를 추출합니다...`);
-      target.apply(this, args);
-      console.log(`머신에 물이 ${this.water}ml 남아있습니다.`);
-    };
-
-// 스팀 밀크 준비하는 데코레이터
-function heatMilk(milk: number) {
-  return function <Class extends VarietyMachine>(
-    target: Function,
-    context: ClassMethodDecoratorContext
-  ) {
-    return function <Args extends any[]>(this: Class, ...args: Args) {
-      while (this.milkTemperature < this.desiredMilkTemperature) {
-        this.milkTemperature++;
-      }
-      console.log(`${milk}ml의 우유를 ${this.milkTemperature}도로 데웠습니다.`);
-      target.apply(this, args);
-    };
+function withEmploymentDate<Constructor extends { new (...args: any[]): {} }>(
+  baseClass: Constructor,
+  context: ClassDecoratorContext
+) {
+  return class extends baseClass {
+    employmentDate = new Date().toISOString();
+    constructor(...args: any[]) {
+      super(...args);
+      console.log(`${baseClass.name} 클래스에 입사일 속성을 추가했습니다.`);
+    }
   };
 }
 
-// 커피 머신 1
-class StarbucksMachine extends VarietyMachine {
-  coffeeBeans = 1000;
-  water = 1000;
-  milkTemperature = 30;
-  desiredMilkTemperature = 75;
+@withEmploymentDate
+class Employee {
+  calcPay() {}
+}
+```
 
-  @grindCoffeeBeans(20)
-  @extract(50)
-  espresso() {
-    console.log("에스프레소가 나왔습니다.");
-  }
+### accessor 데코레이터
 
-  @grindCoffeeBeans(20)
-  @extract(30)
-  ristretto() {
-    console.log("리스트레토가 나왔습니다.");
-  }
+accessor는 TS 4.9에 추가된 기능으로 내부적으로 해당 속성을 은폐하고 getter, setter로 조회하는 접두사입니다.  
 
-  @grindCoffeeBeans(20)
-  @extract(50)
-  @heatMilk(140)
-  caffelatte() {
-    console.log(`Starbucks만의 고유 재료와 비법 레시피를 이용한 카페라떼를 만듭니다...`);
-    console.log(`Starbucks 카페라떼가 나왔습니다.`);
-  }
+```typescript
+// 개발자가 작성한 코드
+class Person {
+    accessor name: string;
 }
 
-// 커피 머신 2
-class EdiyaMachine extends VarietyMachine {
-  coffeeBeans = 1000;
-  water = 1000;
-  milkTemperature = 30;
-  desiredMilkTemperature = 72;
+// 실제로 작동하는 코드
+class Person {
+    #__name: string;
+    get name() {
+        return this.#__name;
+    }
+    set name(value: string) {
+        this.#__name = name;
+    }
+}
+```
 
-  @grindCoffeeBeans(16)
-  @extract(40)
-  espresso() {
-    console.log("에스프레소를 추출합니다.");
-  }
+getter, setter는 그 책임에만 충실해야 합니다. 그렇다면 이런 민감한 속성의 변화는 어떻게 관찰하면 좋을까요? 데코레이터가 이를 돕습니다.
 
-  @grindCoffeeBeans(16)
-  @extract(40)
-  @heatMilk(120)
-  caffelatte() {
-    console.log(`Ediya만의 고유 재료와 비법 레시피를 이용한 카페라떼를 만듭니다...`);
-    console.log(`Ediya 카페라떼가 나왔습니다.`);
-  }
+```typescript
+class User {
+  @watchChange
+  accessor nickname: string = "John Doe";
 
-  @grindCoffeeBeans(16)
-  @extract(40)
-  @heatMilk(80)
-  cappuccino() {
-    console.log(`Ediya만의 고유 재료와 비법 레시피를 이용한 카푸치노를 만듭니다...`);
-    console.log(`Ediya 카푸치노가 나왔습니다.`);
-  }
+  @watchChange
+  accessor password: string = "1234";
 }
 
-// 서비스 layer
-const ediyaMachine = new EdiyaMachine();
-starbucksMachine.caffelatte();
+const user = new User();
+user.nickname = "ilovecoffee";
+user.password = "1q2w3e4r";
 
-const starbucksMachine = new StarbucksMachine();
-ediyaMachine.caffelatte();
-ediyaMachine.cappuccino();
+function watchChange<This, Value>(
+  accessor: {
+    get: (this: This) => Value;
+    set: (this: This, value: Value) => void;
+  },
+  context: ClassAccessorDecoratorContext<This, Value>
+) {
+  return {
+    get: function (this: This) {
+      return accessor.get.call(this);
+    },
+    set: function (this: This, value: Value) {
+      console.log(
+        `${context.name.toString()}이 ${accessor.get.call(
+          this
+        )}에서 ${value}로 변경되었습니다.`
+      );
+      accessor.set.call(this, value);
+    },
+  };
+}
+
 ```
 
 ## 마무리
