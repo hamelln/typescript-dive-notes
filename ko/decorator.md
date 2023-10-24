@@ -87,7 +87,7 @@ function withEmploymentDate<Constructor extends { new (...args: any[]): {} }>(
     employmentDate = new Date().toISOString();
     constructor(...args: any[]) {
       super(...args);
-      console.log(`${baseClass.name} 클래스에 입사일 속성을 추가했습니다.`);
+      console.log(`${baseClass.name}에 입사일 속성을 추가했습니다.`);
     }
   };
 }
@@ -96,6 +96,8 @@ function withEmploymentDate<Constructor extends { new (...args: any[]): {} }>(
 class Employee {
   calcPay() {}
 }
+
+const employee = new Employee(); // Employee에 입사일 속성을 추가했습니다.
 ```
 
 ### accessor 데코레이터
@@ -132,8 +134,8 @@ class User {
 }
 
 const user = new User();
-user.nickname = "ilovecoffee";
-user.password = "1q2w3e4r";
+user.nickname = "ilovecoffee"; // 사용자의 nickname이(가) John Doe에서 ilovecoffee로 변경되었습니다.
+user.password = "1q2w3e4r"; // 사용자의 password이(가) 1234에서 1q2w3e4r로 변경되었습니다.
 
 function watchChange<This, Value>(
   accessor: {
@@ -148,7 +150,7 @@ function watchChange<This, Value>(
     },
     set: function (this: This, value: Value) {
       console.log(
-        `${context.name.toString()}이 ${accessor.get.call(
+        `사용자의 ${context.name.toString()}이(가) ${accessor.get.call(
           this
         )}에서 ${value}로 변경되었습니다.`
       );
