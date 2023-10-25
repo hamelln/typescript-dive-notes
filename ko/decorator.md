@@ -6,7 +6,7 @@
 
 ### 데코레이터 패턴
 
-&nbsp;&nbsp;&nbsp;&nbsp;타입스크립트의 데코레이터는 [데코레이터 패턴](https://en.wikipedia.org/wiki/Decorator_pattern)을 일부 지원하는 기능으로 **클래스에서만 사용할 수 있습니다(2023/10 기준).** 데코레이터 패턴은 1994년에 Gang of Four의 [디자인패턴: 재사용 가능한 객체 지향 프로그래밍의 요소](https://en.wikipedia.org/wiki/Design_Patterns)에서 제시한 디자인 패턴으로 [SOLID 원칙](https://en.wikipedia.org/wiki/SOLID)의 S(SRP)와 O(OCP)를 지키기 좋은 패턴입니다.
+&nbsp;&nbsp;&nbsp;&nbsp;타입스크립트의 데코레이터는 [데코레이터 패턴](https://en.wikipedia.org/wiki/Decorator_pattern)을 일부 지원하는 기능으로 **클래스에서만 사용할 수 있습니다(2023/10 기준).** 데코레이터 패턴은 1994년 Gang of Four의 [디자인패턴: 재사용 가능한 객체 지향 프로그래밍의 요소](https://en.wikipedia.org/wiki/Design_Patterns)에서 제시한 디자인 패턴으로 [SOLID 원칙](https://en.wikipedia.org/wiki/SOLID)의 S(SRP)와 O(OCP)를 지키기 좋은 패턴입니다.
 
 - 단일 책임 원칙 (Single Responsibility Principle, SRP)  
 객체는 책임을 한 가지만 가져야 합니다. 한 객체가 여러 책임을 가지면 코드는 번잡해집니다.
