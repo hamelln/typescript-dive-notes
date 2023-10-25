@@ -111,8 +111,6 @@ function heatMilk(milk: number) {
 
 &nbsp;&nbsp;&nbsp;&nbsp;우유를 사용하는 메뉴에만 `heatMilk`를 선택적으로 쓰고 에스프레소, 우유 양도 자유롭게 조정됩니다. 필요한 때에 필요한 것만 가져와 `base`를 꾸미고(decorate) 어느 브랜드, 어느 머신에도 유연하게 대처할 준비가 됐습니다. 어떤가요? 
 
-&nbsp;&nbsp;&nbsp;&nbsp;타입스크립트에서는 Meta Programming(MP)을 위해 내놓았다고 서술하는데요. @로 metadata context를 이용하는 것은 Java에서도 흔히 볼 수 있습니다. 이는 AOP(Aspect-Oriented-Programming)와 연관이 깊습니다. 실제로 JS에선 [Proxy](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/Proxy), [Reflect](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/Reflect)객체를 도입함으로서 선언형 AOP를 대비하고 있습니다.
-
 ### 클래스 데코레이터 
 
 아래와 같이 클래스 자체를 decorate할 수도 있습니다.
