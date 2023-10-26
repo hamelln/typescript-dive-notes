@@ -6,7 +6,7 @@
 
 ### 데코레이터 패턴
 
-&nbsp;&nbsp;&nbsp;&nbsp;타입스크립트의 데코레이터는 [데코레이터 패턴](https://en.wikipedia.org/wiki/Decorator_pattern)을 일부 지원하는 기능으로 **클래스에서만 사용할 수 있습니다(2023/10 기준).** 데코레이터 패턴은 1994년 Gang of Four의 [디자인패턴: 재사용 가능한 객체 지향 프로그래밍의 요소](https://en.wikipedia.org/wiki/Design_Patterns)에서 제시한 디자인 패턴으로 [SOLID 원칙](https://en.wikipedia.org/wiki/SOLID)의 S(SRP)와 O(OCP)를 지키기 좋은 패턴입니다.
+&nbsp;&nbsp;&nbsp;&nbsp;데코레이터는 클래스, 필드, 메소드에 대한 처리를 유연하게 돕는 기능입니다. [제안서](https://github.com/tc39/proposal-decorators)에 따르면 _데코레이터는 기능 추가, 변경, 접근 등의 처리에 대해 일일이 코드를 수정하는 대신 메타 정보를 입맛에 맞게 추가, 조합해서 구현_ 하려는 목적이 큽니다. 이는 SOLID 원칙의 SRP와 OCP에도 좋습니다.
 
 - 단일 책임 원칙 (Single Responsibility Principle, SRP)  
 객체는 책임을 한 가지만 가져야 합니다. 한 객체가 여러 책임을 가지면 코드는 번잡해집니다.
@@ -37,9 +37,7 @@ _<p><strong>문제 3. 브랜드마다 레시피가 다릅니다.</strong></p>_
 
 &nbsp;&nbsp;&nbsp;&nbsp;카페라떼를 생각해봅시다. 어디는 시나몬, 혹은 시럽을 넣고 들어가는 원두의 종류, 양, 우유의 온도, 양이 각자 다릅니다. 그러나 <strong>다들 원두를 분쇄하고 에스프레소를 만들고 데운 우유를 사용합니다.</strong> 재사용성이 엿보이는 로직은 **데코레이터로 분리**할 수 있습니다.
 
-### 데코레이터
-
-> _<strong>객체 고유의 기본 메소드를 만들고, 그 외에는 필요에 따라서 추가 기능을 덧붙입니다.</strong>_
+아까 말했듯이 데코레이터는 내부 로직은 수정하지 않으면서 추가 정보를 덧붙이고 조합하는 형식으로 여러 형태를 구현합니다.
 
 ![SmartSelect_20231023-205352_Samsung Notes](https://github.com/hamelln/typescript-dive-notes/assets/39308313/bec103af-956c-4e27-a57e-cde36bb44045)
 
@@ -50,7 +48,7 @@ class StarbucksMachine extends VarietyMachine {
   desiredMilkTemperature = 75; // 우유를 데우는 온도
 
   @grindCoffeeBeans(20) // 원두를 20g 분쇄합니다.
-  @extract(50) // 에스프레소를 50ml 추출합니다.
+  @extractEspresso(50) // 에스프레소를 50ml 추출합니다.
   @heatMilk(140) // 우유를 140ml 데웁니다.
   caffelatte() {
     console.log(`Starbucks만의 고유 재료와 비법 레시피를 이용한 카페라떼를 만듭니다...`);
@@ -58,7 +56,7 @@ class StarbucksMachine extends VarietyMachine {
   }
 
   @grindCoffeeBeans(20) 
-  @extract(40) 
+  @extractEspresso(40) 
   @heatMilk(80) 
   cappuccino() {
     console.log(`Starbucks만의 고유 재료와 비법 레시피를 이용한 카푸치노를 만듭니다...`);
@@ -163,23 +161,20 @@ getter, setter는 그 책임에만 충실해야 합니다. 그렇다면 이런 �
 
 ```typescript
 class User {
-  @watchChange
-  accessor nickname: string = "John Doe";
-
-  @watchChange
-  accessor password: string = "1234";
+  @watchChange accessor nickname: string = "John Doe";
+  @watchChange accessor password: string = "1234";
 }
 
 const user = new User();
-user.nickname = "ilovecoffee"; // 사용자의 nickname이(가) John Doe에서 ilovecoffee로 변경되었습니다.
-user.password = "1q2w3e4r"; // 사용자의 password이(가) 1234에서 1q2w3e4r로 변경되었습니다.
+user.nickname = "ilovecoffee";
+user.password = "22231";
 
 function watchChange<This, Value>(
   accessor: {
     get: (this: This) => Value;
     set: (this: This, value: Value) => void;
   },
-  context: ClassAccessorDecoratorContext<This, Value>
+  { name }: ClassAccessorDecoratorContext<This, Value>
 ) {
   return {
     get: function (this: This) {
@@ -187,7 +182,7 @@ function watchChange<This, Value>(
     },
     set: function (this: This, value: Value) {
       console.log(
-        `사용자의 ${context.name.toString()}이(가) ${accessor.get.call(
+        `${String(name)}이 ${accessor.get.call(
           this
         )}에서 ${value}로 변경되었습니다.`
       );
@@ -195,14 +190,40 @@ function watchChange<This, Value>(
     },
   };
 }
+```
 
+성능 측정이 필요한 메소드가 많으면 측정용 데코레이터를 따로 두는 것도 괜찮을 듯합니다.
+
+```typescript
+function measurePerformance<Class>(
+  target: Function,
+  { name }: ClassMethodDecoratorContext
+) {
+  return function <Args extends any[]>(this: Class, ...args: Args) {
+    const t0 = performance.now();
+    target.apply(this, args);
+    const t1 = performance.now();
+    console.log(`${String(name)}은 ${t1 - t0}ms가 걸렸습니다.`);
+  };
+}
+
+class HeavyWorker {
+  @measurePerformance
+  veryImportantWork() {
+    let currentValue = Math.random();
+    for (let i = 0; i < 1000000; i++) {
+      currentValue += i;
+    }
+  }
+}
+
+const worker = new HeavyWorker();
+worker.veryImportantWork();
 ```
 
 ## 마치며
 
-> _&nbsp;&nbsp;&nbsp;&nbsp;이 외에도 타입스크립트에서 추천한 포스팅에선 메소드 전후처리, 직렬화 및 역직렬화의 자동 처리, 의존성 주입, 런타임에서 타입 평가 등 다용도로 사용한다고 서술합니다.  
-&nbsp;&nbsp;&nbsp;&nbsp;디자인 패턴은 **그때의 문제를 해결하기 위해 탄생한 개념이지, 모든 프로그램에 적용하기 좋은 정석이 아님**을 명심하세요. 데코레이터 역시 무조건적인 개선을 보장하지는 않습니다. 따라서 팀원들, 혹은 스스로에게 다시금 물어보세요.  
-"지금 문제를 개선하기 위해서는 데코레이터가 적절한가?"_
+> 데코레이터는 더 다양하고 복잡한 문제에도 적용하기 좋습니다. 많이 연습해서 익숙해지도록 합시다.
 
 ### 참조
 
