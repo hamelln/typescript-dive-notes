@@ -87,7 +87,7 @@ return <Children handleClick={setCount} />
 
 // Children.tsx
 interface Props {
- handleClick: (num: number) => void; // ✅ 사용 가능하지만 SetState라는 힌트를 변수명에서만 짐작할 수 있습니다.
+ handleClick: (num: number) => void; // ❌ 사용은 가능하지만 SetState인지 변수명으로만 추측해야 합니다.
 }
 
 interface Props2 {
