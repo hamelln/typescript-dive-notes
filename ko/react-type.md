@@ -78,4 +78,19 @@ function B() {
 } // count 2
 ```
 
-&nbsp;&nbsp;&nbsp;&nbsp;케이스 1은 이전 상태 값을 이용하지 않기 때문에 마지막 호출만 유효합니다. 반면에 케이스 2는 이전 상태값을 연동하기 때문에 연속적으로 처리합니다.
+&nbsp;&nbsp;&nbsp;&nbsp;케이스 1은 이전 상태 값을 이용하지 않기 때문에 마지막 호출만 유효합니다. 반면에 케이스 2는 이전 상태값을 연동하기 때문에 연속적으로 처리합니다. 그리고 이를 통해 props로 전달하는 setState의 타입도 올바르게 작성해봅시다.
+
+```typescript
+// Parent.tsx
+const [count, setCount] = useState(0);
+return <Children handleClick={setCount} />
+
+// Children.tsx
+interface Props {
+ handleClick: (num: number) => void; // ✅ 사용 가능하지만 SetState라는 힌트를 변수명에서만 짐작할 수 있습니다.
+}
+
+interface Props2 {
+ handleClick: Dispatch<SetStateAction<number>>; // ✅ handleClick이 SetState라는 것을 확실하게 명시합니다.
+}
+```
