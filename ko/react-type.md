@@ -94,3 +94,27 @@ interface Props2 {
  handleClick: Dispatch<SetStateAction<number>>; // ✅ handleClick이 SetState라는 것을 확실하게 명시합니다.
 }
 ```
+
+### UMD
+
+node_modules에서 react폴더에 index.d.ts를 보면 다음과 같은 코드가 있습니다.
+
+```typescript
+export as namespace React
+```
+
+
+위 코드의 의미는 UMD(Universal Module Definition) 모듈에도 대응이 가능하도록 타입을 export하겠다는 의미입니다. 그럼 UMD란 무엇일까요? 아래 코드를 봅시다.
+
+```typescript
+// 이 파일은 module 파일입니다.
+function A(){...}
+export default A;
+```
+
+```typescript
+// 이 파일은 스크립트 파일입니다. html 파일에서 <script src="..." />으로 import해서 사용합니다.
+function A(){...}
+```
+
+`export as`로 하면 타입이 전역적으로 선언됩니다.  
