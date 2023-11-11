@@ -2,8 +2,6 @@
 
 > _패키지의 타입을 읽고, 작성하는 법을 이해합니다._
 
-&nbsp;&nbsp;&nbsp;&nbsp;_Editor's note: 미정._
-
 ### 모듈
 
 &nbsp;&nbsp;&nbsp;&nbsp;node_modules의 react폴더에는 `cjs` 폴더와 `umd` 폴더가 있습니다. 둘 다 react.development.js가 있는데 두 코드는 거의 다 똑같되 약간의 차이가 있습니다.
@@ -24,13 +22,13 @@
 &nbsp;&nbsp;&nbsp;&nbsp;Node.js에서 사용합니다. 모듈을 동기적으로 로드하며 주로 백엔드에서 사용합니다.
 
 - Asynchronous Module Definition(AMD)  
-&nbsp;&nbsp;&nbsp;&nbsp;주로 RequireJS에서 사용합니다. 모듈을 비동기적으로 로드하며 주로 프론트엔드에서 사용합니다. 근래엔 AMD를 잘 안 씁니다.
+&nbsp;&nbsp;&nbsp;&nbsp;주로 RequireJS에서 사용합니다. 모듈을 비동기적으로 로드하며 주로 프론트엔드에서 사용합니다. 요즘은 사용 빈도가 줄었습니다.
 
 - ECMAScript Module(ESM)  
 &nbsp;&nbsp;&nbsp;&nbsp;일반적인 브라우저, 근래의 Node.js에서 사용합니다. 모듈을 비동기적으로 로드하고 import 시 트리 쉐이킹을 해 번들 크기를 줄입니다. CommonJS의 `require`는 동적으로 가져오고 내보낼 수 있어 런타임에만 평가가 가능하지만 import는 정적이기 때문에 런타임 전에 분석이 가능합니다. 
 
 - Universal Module Definition(UMD)  
-&nbsp;&nbsp;&nbsp;&nbsp;CJS, AMD 등 여러 케이스에 대응합니다. 똑같이 작성하더라도 CJS와 AMD는 작성법, 작동 방식, 효율이 다릅니다. 보통은 효율적인 방식을 먼저 시도해보고, 실패할 경우엔 UMD로 대응합니다. 크로스 브라우징, polyfill처럼 범용성 대비라고 생각하면 됩니다. react 패키지의 index를 보면 cjs로 먼저 접근합니다. 요즘은 AMD를 잘 안 써서 UMD를 쓸 일도 같이 줄어들었습니다.
+&nbsp;&nbsp;&nbsp;&nbsp;CJS, AMD 등 여러 케이스에 대응합니다. 똑같이 작성하더라도 CJS와 AMD는 작성법, 작동 방식, 효율이 다릅니다. 보통은 효율적인 방식을 먼저 시도해보고, 실패할 경우엔 UMD로 대응합니다. 크로스 브라우징, polyfill처럼 범용성 대비라고 생각하면 됩니다. react 패키지의 index를 보면 cjs로 먼저 접근합니다. 다만 AMD 사용률이 감소해서 UMD 사용도 같이 줄어들었습니다.
 
 ```javascript
 if (process.env.NODE_ENV === 'production') {
@@ -82,7 +80,8 @@ export { add };
 }
 ```
 
-&nbsp;&nbsp;&nbsp;&nbsp;`npx tsc`를 실행하면 dist 폴더와 types 폴더가 생성됩니다. `npm pack`을 실행하면 add-ts는 tgz 패키지 파일로 변환됩니다. 이제 `npm i ../add-ts.tgz`처럼 로컬 경로로 패키지 설치가 가능합니다.
+&nbsp;&nbsp;&nbsp;&nbsp;`npx tsc`를 실행하면 dist 폴더와 types 폴더가 생성됩니다. `npm pack`을 실행하면 add-ts는 tgz 패키지 파일로 변환됩니다.  
+&nbsp;&nbsp;&nbsp;&nbsp;이제 `npm i ../add-ts.tgz`나 `npm i ../add-ts(패키지 name)`으로 로컬 패키지 설치가 가능합니다.
 
 ```typescript
 // 패키지 types/index.d.ts에서 타입을 참조합니다. add-ts의 package.json에서 그렇게 명시했기 때문입니다.
@@ -118,7 +117,7 @@ export { add };
 
 위와 같이 타입만 작성하고 `npm pack`으로 패키지로 만들면 됩니다. 타입스크립트는 타입이 없는 패키지를 발견하면 index.ts, index.d.ts 등이 있는지 살펴보고 없을 경우 `@types/패키지`를 탐색합니다. add-js, @types/add-js를 설치하면 두 패키지를 별도로 연동할 필요 없이 자동으로 해결됩니다.
 
-### 일부 타입 선언
+### 패키지 일부 타입 선언
 
 패키지 전체를 @types로 적기 어려울 테니 사용하는 것만 d.ts를 적기도 합니다. 방법은 간단합니다.
 
@@ -134,9 +133,23 @@ declare module "add-js" {
   },
 ```
 
+### JS -> TS 마이그레이션
+
+```javascript
+  "compilerOptions": {
+    "allowJs": true,
+    "checkJs": true
+  },
+
+// calc.ts
+const add = (x: number, y: number): number => x + y;
+const minus = (x, y) => x - y; // 타입 적으라는 경고 but 사용 가능
+export { add, minus };
+```
+
 ## 마치며
 
-> 
+> _개발할 때 라이브러리 타입을 볼 일이 많고, 직접 작성해야할 때도 있습니다. 연습을 통해 익숙해지도록 합시다._
 
 ### 참조
 
