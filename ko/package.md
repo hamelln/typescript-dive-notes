@@ -24,13 +24,13 @@
 &nbsp;&nbsp;&nbsp;&nbsp;Node.js에서 사용합니다. 모듈을 동기적으로 로드하며 주로 백엔드에서 사용합니다.
 
 - Asynchronous Module Definition(AMD)  
-&nbsp;&nbsp;&nbsp;&nbsp;주로 RequireJS에서 사용합니다. 모듈을 비동기적으로 로드하며 주로 프론트엔드에서 사용합니다.
+&nbsp;&nbsp;&nbsp;&nbsp;주로 RequireJS에서 사용합니다. 모듈을 비동기적으로 로드하며 주로 프론트엔드에서 사용합니다. 근래엔 AMD를 잘 안 씁니다.
 
 - ECMAScript Module(ESM)  
 &nbsp;&nbsp;&nbsp;&nbsp;일반적인 브라우저, 근래의 Node.js에서 사용합니다. 모듈을 비동기적으로 로드하고 import 시 트리 쉐이킹을 해 번들 크기를 줄입니다. CommonJS의 `require`는 동적으로 가져오고 내보낼 수 있어 런타임에만 평가가 가능하지만 import는 정적이기 때문에 런타임 전에 분석이 가능합니다. 
 
 - Universal Module Definition(UMD)  
-&nbsp;&nbsp;&nbsp;&nbsp;CJS, AMD 등 여러 케이스에 대응합니다. 똑같이 작성하더라도 CJS와 AMD는 작성법, 작동 방식, 효율이 다릅니다. 보통은 효율적인 방식을 먼저 시도해보고, 실패할 경우엔 UMD로 대응합니다. 크로스 브라우징, polyfill처럼 범용성 대비라고 생각하면 됩니다. react 패키지의 index를 보면 cjs로 먼저 접근합니다.
+&nbsp;&nbsp;&nbsp;&nbsp;CJS, AMD 등 여러 케이스에 대응합니다. 똑같이 작성하더라도 CJS와 AMD는 작성법, 작동 방식, 효율이 다릅니다. 보통은 효율적인 방식을 먼저 시도해보고, 실패할 경우엔 UMD로 대응합니다. 크로스 브라우징, polyfill처럼 범용성 대비라고 생각하면 됩니다. react 패키지의 index를 보면 cjs로 먼저 접근합니다. 그러나 요즘은 AMD를 잘 안 써서 UMD를 쓸 일도 같이 줄어들었습니다.
 
 ```javascript
 if (process.env.NODE_ENV === 'production') {
@@ -82,7 +82,7 @@ export { add };
 }
 ```
 
-&nbsp;&nbsp;&nbsp;&nbsp;`npx tsc`를 실행하면 dist 폴더와 types 폴더가 생성됩니다. `npm pack`을 실행하면 add-ts는 pgz 패키지 파일로 변환됩니다. 이제 `npm i ../add-ts.pgz`처럼 로컬 경로로 패키지 설치가 가능합니다.
+&nbsp;&nbsp;&nbsp;&nbsp;`npx tsc`를 실행하면 dist 폴더와 types 폴더가 생성됩니다. `npm pack`을 실행하면 add-ts는 tgz 패키지 파일로 변환됩니다. 이제 `npm i ../add-ts.tgz`처럼 로컬 경로로 패키지 설치가 가능합니다.
 
 ```typescript
 // 패키지 types/index.d.ts에서 타입을 참조합니다. add-ts의 package.json에서 그렇게 명시했기 때문입니다.
@@ -93,6 +93,45 @@ add(1, 2); // 3
 // add.d.ts
 declare const add: (x: number, y: number) => number; 
 export default add;
+```
+
+자바스크립트로만 만든 패키지를 배포할 땐 types.d.ts를 별도로 만들어서 등록하고 위처럼 package.json에서 types 참조를 명시하면 됩니다.
+
+### @types
+
+자바스크립트로만 만들어졌고 타입 등록이 없는 패키지는 types를 별도로 설치할 때가 많습니다. 이것도 연습해봅니다. 방법은 간단합니다.
+
+```typescript
+// index.d.ts
+declare function add(x: number, y: number): number;
+export { add };
+
+// package.json
+{
+  "name": "@types/add-js",
+  "description": "Type definitions for add-js",
+  "version": "1.0.0",
+  "main": "",
+  "types": "index.d.ts"
+}
+```
+
+위와 같이 타입만 작성하고 `npm pack`으로 패키지로 만들면 됩니다. 타입스크립트는 타입이 없는 패키지를 발견하면 index.ts, index.d.ts 등이 있는지 살펴보고 없을 경우 `@types/패키지`를 탐색합니다. add-js, @types/add-js를 설치하면 두 패키지를 별도로 연동할 필요 없이 자동으로 해결됩니다.
+
+### 일부 타입 선언
+
+패키지 전체를 @types로 적기 어려울 테니 사용하는 것만 d.ts를 적기도 합니다. 방법은 간단합니다.
+
+```typescript
+// types/add-js.d.ts
+declare module "add-js" {
+  export const add: (x: number, y: number) => number;
+}
+// tsconfig.json
+  "compilerOptions": {
+// 패키지 타입을 탐색할 경로들. types 폴더와 node_modules/@types 폴더를 탐색합니다.
+    "typeRoots": ["./types", "./node_modules/@types"] // typeRoots를 명시하지 않았으면 @types는 자동 적용
+  },
 ```
 
 ## 마치며
