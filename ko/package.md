@@ -40,7 +40,7 @@ if (process.env.NODE_ENV === 'production') {
 
 ### tsc와 tsconfig
 
-&nbsp;&nbsp;&nbsp;&nbsp;tsc는 TypeScript Compile입니다. 터미널에 `npx tsc`를 입력하면 타입스크립트가 자바스크립트로 컴파일되니다. tsconfig에서 타입스크립트 컴파일에 대한 옵션을 지정할 수 있습니다.
+&nbsp;&nbsp;&nbsp;&nbsp;tsc는 TypeScript Compile입니다. 터미널에 `npx tsc`를 입력하면 타입스크립트가 자바스크립트로 컴파일됩니다. tsconfig에서 타입스크립트 컴파일에 대한 옵션을 지정할 수 있습니다.
 
 ```javascript
 "compilerOptions": {
