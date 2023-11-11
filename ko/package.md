@@ -30,7 +30,7 @@
 &nbsp;&nbsp;&nbsp;&nbsp;일반적인 브라우저, 근래의 Node.js에서 사용합니다. 모듈을 비동기적으로 로드하고 import 시 트리 쉐이킹을 해 번들 크기를 줄입니다. CommonJS의 `require`는 동적으로 가져오고 내보낼 수 있어 런타임에만 평가가 가능하지만 import는 정적이기 때문에 런타임 전에 분석이 가능합니다. 
 
 - Universal Module Definition(UMD)  
-&nbsp;&nbsp;&nbsp;&nbsp;CJS, AMD 등 여러 케이스에 대응합니다. 똑같이 작성하더라도 CJS와 AMD는 작성법, 작동 방식, 효율이 다릅니다. 보통은 효율적인 방식을 먼저 시도해보고, 실패할 경우엔 UMD로 대응합니다. 크로스 브라우징, polyfill처럼 범용성 대비라고 생각하면 됩니다. react 패키지의 index를 보면 cjs로 먼저 접근합니다. 그러나 요즘은 AMD를 잘 안 써서 UMD를 쓸 일도 같이 줄어들었습니다.
+&nbsp;&nbsp;&nbsp;&nbsp;CJS, AMD 등 여러 케이스에 대응합니다. 똑같이 작성하더라도 CJS와 AMD는 작성법, 작동 방식, 효율이 다릅니다. 보통은 효율적인 방식을 먼저 시도해보고, 실패할 경우엔 UMD로 대응합니다. 크로스 브라우징, polyfill처럼 범용성 대비라고 생각하면 됩니다. react 패키지의 index를 보면 cjs로 먼저 접근합니다. 요즘은 AMD를 잘 안 써서 UMD를 쓸 일도 같이 줄어들었습니다.
 
 ```javascript
 if (process.env.NODE_ENV === 'production') {
