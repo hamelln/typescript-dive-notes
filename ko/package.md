@@ -98,7 +98,7 @@ export default add;
 
 ### @types
 
-&nbsp;&nbsp;&nbsp;&nbsp;자바스크립트로만 만들어졌고 타입 등록이 없는 패키지는 types를 별도로 설치할 때가 많습니다. 이것도 연습해봅니다. 방법은 간단합니다.
+&nbsp;&nbsp;&nbsp;&nbsp;라이브러리를 사용할 때 @types를 같이 설치할 때가 많습니다. 작성할 땐 아래와 같이 합니다.
 
 ```typescript
 // index.d.ts
@@ -115,11 +115,11 @@ export { add };
 }
 ```
 
-&nbsp;&nbsp;&nbsp;&nbsp;위와 같이 타입만 작성하고 `npm pack`으로 패키지로 만들면 됩니다. 타입스크립트는 타입이 없는 패키지를 발견하면 index.ts, index.d.ts 등이 있는지 살펴보고 없을 경우 `@types/패키지`를 탐색합니다. add-js, @types/add-js를 설치하면 두 패키지를 별도로 연동할 필요 없이 자동으로 해결됩니다.
+&nbsp;&nbsp;&nbsp;&nbsp;위와 같이 타입만 작성하면 됩니다. 타입스크립트는 타입이 없는 패키지를 발견하면 index.ts, index.d.ts 등이 있는지 살펴보고, 없으면 `@types/패키지`도 탐색합니다. 따라서 add-js, @types/add-js 두 개를 별도로 연동하지 않아도 자동으로 타입이 연결됩니다. 
 
 ### 패키지 일부 타입 선언
 
-&nbsp;&nbsp;&nbsp;&nbsp;패키지 전체를 @types로 적기 어려울 테니 사용하는 것만 d.ts를 적기도 합니다. 방법은 간단합니다.
+&nbsp;&nbsp;&nbsp;&nbsp;패키지 전체를 @types로 적기 어려우면 사용하는 것만 d.ts를 적습니다. 
 
 ```typescript
 // types/add-js.d.ts
