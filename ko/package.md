@@ -21,17 +21,16 @@
 ```
 
 - CommonJS(CJS)
-Node.js에서 사용합니다. 모듈을 동기적으로 로드하며 주로 백엔드에서 사용합니다.
+&nbsp;&nbsp;&nbsp;&nbsp;Node.js에서 사용합니다. 모듈을 동기적으로 로드하며 주로 백엔드에서 사용합니다.
 
 - Asynchronous Module Definition(AMD)
-주로 RequireJS에서 사용합니다. 모듈을 비동기적으로 로드하며 주로 프론트엔드에서 사용합니다.
+&nbsp;&nbsp;&nbsp;&nbsp;주로 RequireJS에서 사용합니다. 모듈을 비동기적으로 로드하며 주로 프론트엔드에서 사용합니다.
 
 - ECMAScript Module(ESM)
-일반적인 브라우저, 근래의 Node.js에서 사용합니다. 모듈을 비동기적으로 로드하고 import 시 트리 쉐이킹을 해 번들 크기를 줄입니다. CommonJS의 `require`는 동적으로 가져오고 내보낼 수 있어 런타임에만 평가가 가능하지만 import는 정적이기 때문에 런타임 전에 분석이 가능합니다. 
+&nbsp;&nbsp;&nbsp;&nbsp;일반적인 브라우저, 근래의 Node.js에서 사용합니다. 모듈을 비동기적으로 로드하고 import 시 트리 쉐이킹을 해 번들 크기를 줄입니다. CommonJS의 `require`는 동적으로 가져오고 내보낼 수 있어 런타임에만 평가가 가능하지만 import는 정적이기 때문에 런타임 전에 분석이 가능합니다. 
 
 - Universal Module Definition(UMD)
-CJS, AMD 등 여러 케이스에 대응합니다.  
-똑같이 작성하더라도 CJS와 AMD는 작성법, 작동 방식, 효율이 다릅니다. 보통은 효율적인 방식을 먼저 시도해보고, 실패할 경우엔 UMD로 대응합니다. 크로스 브라우징, polyfill처럼 범용성 대비라고 생각하면 됩니다. react 패키지의 index를 보면 cjs로 먼저 접근합니다.
+&nbsp;&nbsp;&nbsp;&nbsp;CJS, AMD 등 여러 케이스에 대응합니다. 똑같이 작성하더라도 CJS와 AMD는 작성법, 작동 방식, 효율이 다릅니다. 보통은 효율적인 방식을 먼저 시도해보고, 실패할 경우엔 UMD로 대응합니다. 크로스 브라우징, polyfill처럼 범용성 대비라고 생각하면 됩니다. react 패키지의 index를 보면 cjs로 먼저 접근합니다.
 
 ```javascript
 if (process.env.NODE_ENV === 'production') {
@@ -43,7 +42,7 @@ if (process.env.NODE_ENV === 'production') {
 
 ### tsc와 tsconfig
 
-tsc는 TypeScript Compile입니다. 터미널에 `npx tsc`를 입력하면 타입스크립트가 자바스크립트로 컴파일되니다. tsconfig에서 타입스크립트 컴파일에 대한 옵션을 지정할 수 있습니다.
+&nbsp;&nbsp;&nbsp;&nbsp;tsc는 TypeScript Compile입니다. 터미널에 `npx tsc`를 입력하면 타입스크립트가 자바스크립트로 컴파일되니다. tsconfig에서 타입스크립트 컴파일에 대한 옵션을 지정할 수 있습니다.
 
 ```javascript
 "compilerOptions": {
@@ -59,11 +58,11 @@ tsc는 TypeScript Compile입니다. 터미널에 `npx tsc`를 입력하면 타�
 }
 ```
 
-보통 dist폴더에 컴파일 결과를 보관합니다. 개발할 땐 타입스크립트를 쓰지만 브라우저는 타입스크립트를 실행할 수 없기 때문에 dist에 담긴 자바스크립트 코드를 사용합니다.
+&nbsp;&nbsp;&nbsp;&nbsp;보통 dist폴더에 컴파일 결과를 보관합니다. 개발할 땐 타입스크립트를 쓰지만 브라우저는 타입스크립트를 실행할 수 없기 때문에 dist에 담긴 자바스크립트 코드를 사용합니다.
 
 ### 로컬 패키지
 
-간단한 실습을 해봅니다. 아래와 같은 코드를 만들고 위 tsconfig의 컴파일 옵션을 만들고, package.json에서 컴파일 옵션을 지정합니다. 
+&nbsp;&nbsp;&nbsp;&nbsp;간단한 실습을 해봅니다. 아래와 같은 코드를 만들고 위 tsconfig의 컴파일 옵션을 만들고, package.json에서 컴파일 옵션을 지정합니다. 
 
 ```typescript
 // src/add.ts
@@ -83,7 +82,7 @@ export { add };
 }
 ```
 
-`npx tsc`를 실행하면 dist 폴더와 types 폴더가 생성됩니다. `npm pack`을 실행하면 add-ts는 pgz 패키지 파일로 변환됩니다. 이제 `npm i ../add-ts.pgz`처럼 로컬 경로로 패키지 설치가 가능합니다.
+&nbsp;&nbsp;&nbsp;&nbsp;`npx tsc`를 실행하면 dist 폴더와 types 폴더가 생성됩니다. `npm pack`을 실행하면 add-ts는 pgz 패키지 파일로 변환됩니다. 이제 `npm i ../add-ts.pgz`처럼 로컬 경로로 패키지 설치가 가능합니다.
 
 ```typescript
 import { add } from "add-ts"; // 해당 패키지 types폴더의 index.d.ts에서 타입을 참조합니다. add-ts의 package.json에서 명시했기 때문입니다. 
