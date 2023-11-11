@@ -85,11 +85,13 @@ export { add };
 &nbsp;&nbsp;&nbsp;&nbsp;`npx tsc`를 실행하면 dist 폴더와 types 폴더가 생성됩니다. `npm pack`을 실행하면 add-ts는 pgz 패키지 파일로 변환됩니다. 이제 `npm i ../add-ts.pgz`처럼 로컬 경로로 패키지 설치가 가능합니다.
 
 ```typescript
-import { add } from "add-ts"; // 해당 패키지 types폴더의 index.d.ts에서 타입을 참조합니다. add-ts의 package.json에서 명시했기 때문입니다. 
+// 패키지 types/index.d.ts에서 타입을 참조합니다. add-ts의 package.json에서 그렇게 명시했기 때문입니다.
+// 패키지 dist/index.js를 통해 함수를 사용합니다. add-ts의 package.json에서 그렇게 명시했기 때문입니다.
+import { add } from "add-ts"; // ctrl을 누르고 add를 클릭하면 컴파일 결과물인 add.d.ts를 보여줍니다.
 add(1, 2); // 3
 
 // add.d.ts
-declare const add: (x: number, y: number) => number; // ctrl을 누르고 add를 클릭하면 컴파일로 만들어진 add.d.ts를 보여줍니다.
+declare const add: (x: number, y: number) => number; 
 export default add;
 ```
 
