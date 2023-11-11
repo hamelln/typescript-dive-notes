@@ -94,11 +94,11 @@ declare const add: (x: number, y: number) => number;
 export default add;
 ```
 
-자바스크립트로만 만든 패키지를 배포할 땐 types.d.ts를 별도로 만들어서 등록하고 위처럼 package.json에서 types 참조를 명시하면 됩니다.
+&nbsp;&nbsp;&nbsp;&nbsp;자바스크립트로만 만든 패키지를 배포할 땐 types.d.ts를 별도로 만들어서 등록하고 위처럼 package.json에서 types 참조를 명시하면 됩니다.
 
 ### @types
 
-자바스크립트로만 만들어졌고 타입 등록이 없는 패키지는 types를 별도로 설치할 때가 많습니다. 이것도 연습해봅니다. 방법은 간단합니다.
+&nbsp;&nbsp;&nbsp;&nbsp;자바스크립트로만 만들어졌고 타입 등록이 없는 패키지는 types를 별도로 설치할 때가 많습니다. 이것도 연습해봅니다. 방법은 간단합니다.
 
 ```typescript
 // index.d.ts
@@ -115,11 +115,11 @@ export { add };
 }
 ```
 
-위와 같이 타입만 작성하고 `npm pack`으로 패키지로 만들면 됩니다. 타입스크립트는 타입이 없는 패키지를 발견하면 index.ts, index.d.ts 등이 있는지 살펴보고 없을 경우 `@types/패키지`를 탐색합니다. add-js, @types/add-js를 설치하면 두 패키지를 별도로 연동할 필요 없이 자동으로 해결됩니다.
+&nbsp;&nbsp;&nbsp;&nbsp;위와 같이 타입만 작성하고 `npm pack`으로 패키지로 만들면 됩니다. 타입스크립트는 타입이 없는 패키지를 발견하면 index.ts, index.d.ts 등이 있는지 살펴보고 없을 경우 `@types/패키지`를 탐색합니다. add-js, @types/add-js를 설치하면 두 패키지를 별도로 연동할 필요 없이 자동으로 해결됩니다.
 
 ### 패키지 일부 타입 선언
 
-패키지 전체를 @types로 적기 어려울 테니 사용하는 것만 d.ts를 적기도 합니다. 방법은 간단합니다.
+&nbsp;&nbsp;&nbsp;&nbsp;패키지 전체를 @types로 적기 어려울 테니 사용하는 것만 d.ts를 적기도 합니다. 방법은 간단합니다.
 
 ```typescript
 // types/add-js.d.ts
